@@ -33,11 +33,14 @@ def visualize(df):
     fig, ax = plt.subplots()
 
     # Create a horizontal bar chart
-    sns.barplot(x='Nilai', y='Komponen', data=data, color=sns.color_palette()[0], ax=ax)
+    sns.barplot(x='Values', y='Categories', data=data, color=sns.color_palette()[0], ax=ax)
 
     # Display the values on top of the bars
     for i, val in enumerate(data['Values']):
         ax.text(val + 2, i, f'{val}%', va='center', fontsize=10)
+
+    # Customize the layout
+    ax.set_title('Beautiful Horizontal Bar Chart Example')
 
     # Remove the border on the right side
     plt.subplots_adjust(right=0.9)
