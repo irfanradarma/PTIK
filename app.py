@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 nilai = pd.read_csv("https://docs.google.com/spreadsheets/d/1Wb4eIqgBATGS8gOSa50le8j2-R7YI6KxARswHDufM6E/export?format=csv")
 aut = pd.read_csv("https://docs.google.com/spreadsheets/d/1Wb4eIqgBATGS8gOSa50le8j2-R7YI6KxARswHDufM6E/export?format=csv&gid=1944478741")
@@ -25,23 +26,24 @@ def visualize(df):
     komposisi = df.values[0]
     label = df.columns
 
-    # Create a DataFrame for plotly express
+    # Create a DataFrame for seaborn
     data = pd.DataFrame({'Categories': label, 'Values': komposisi})
 
-    # Create a bar chart using plotly express
-    fig = px.bar(data, x='Categories', y='Values', text='Values', labels={'Values': 'Values'})
+    # Set up the matplotlib figure and axis
+    fig, ax = plt.subplots()
 
-    # Customize the layout for mobile-friendly design
-    fig.update_layout(
-        xaxis_title='Komponen Nilai',
-        yaxis_title='Nilai',
-        title='Komposisi Nilai PTIK',
-        showlegend=False,  # Hide legend for simplicity
-        barmode='group',   # Choose 'group' or 'stack' as per your preference
-        autosize=True,
-        margin=dict(l=0, r=0, t=30, b=0),  # Adjust margins for better mobile display
-    )
-    return fig
+    # Create a horizontal bar chart
+    sns.barplot(x='Nilai', y='Komponen', data=data, color=sns.color_palette()[0], ax=ax)
+
+    # Display the values on top of the bars
+    for i, val in enumerate(data['Values']):
+        ax.text(val + 2, i, f'{val}%', va='center', fontsize=10)
+
+    # Remove the border on the right side
+    plt.subplots_adjust(right=0.9)
+
+    # Display the plot
+    st.pyplot(fig)
 
 def main():
     st.title("Nilai PTIK")
@@ -66,8 +68,8 @@ def main():
                     st.header(NILAI_AKHIR)
                     st.write(f"nilai rata-rata kelas kamu adalah: {RERATA}")
                 with st.expander("Komponen nilai akhir tersebut adalah:"):
-                    fig = visualize(KOMPOSISI)
-                    st.plotly_chart(fig)
+                    with st.container():
+                        visualize(KOMPOSISI)
                     st.write("Selamat yah!")
                     st.write("Semoga perjuangan kamu membuahkan hasil yang memuaskan")
         else:
