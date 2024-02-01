@@ -31,16 +31,16 @@ def visualize(df):
     # Create a bar chart using plotly express
     fig = px.bar(data, x='Categories', y='Values', text='Values', labels={'Values': 'Values'})
 
-    # Customize the layout
+    # Customize the layout for mobile-friendly design
     fig.update_layout(
         xaxis_title='Komponen Nilai',
         yaxis_title='Nilai',
-        title='Komposisi Nilai',
+        title='Komposisi Nilai PTIK',
         showlegend=False,  # Hide legend for simplicity
         barmode='group',   # Choose 'group' or 'stack' as per your preference
+        autosize=True,
+        margin=dict(l=0, r=0, t=30, b=0),  # Adjust margins for better mobile display
     )
-
-    # Display the plotly chart
     return fig
 
 def main():
