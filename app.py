@@ -39,9 +39,6 @@ def visualize(df):
     for i, val in enumerate(data['Values']):
         ax.text(val + 2, i, f'{val}%', va='center', fontsize=10)
 
-    # Customize the layout
-    ax.set_title('Beautiful Horizontal Bar Chart Example')
-
     # Remove the border on the right side
     plt.subplots_adjust(right=0.9)
 
